@@ -1,62 +1,453 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>HelpEngineer</title>
+  <meta charset="UTF-8" />
+  <title>HelpGineer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0b1020, #111827, #0f172a);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .background-glow {
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(59,130,246,0.25), transparent 65%);
+      top: -200px;
+      right: -150px;
+      z-index: 0;
+      animation: floatGlow 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .background-glow-2 {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(139,92,246,0.18), transparent 65%);
+      bottom: -200px;
+      left: -150px;
+      z-index: 0;
+      animation: floatGlow 10s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes floatGlow {
+      0% {
+        transform: translateY(0px) translateX(0px);
+      }
+      50% {
+        transform: translateY(20px) translateX(-20px);
+      }
+      100% {
+        transform: translateY(0px) translateX(0px);
+      }
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      background: rgba(10, 15, 30, 0.75);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .logo span {
+      color: #60a5fa;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      color: #dbeafe;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: #60a5fa;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      margin: 0;
-      background: #f5f7fa;
-      color: #111;
+      padding: 80px 20px;
     }
 
-    .container {
-      margin-top: 120px;
+    .hero-content {
+      max-width: 900px;
+      animation: fadeUp 1.2s ease;
     }
 
-    h1 {
-      font-size: 56px;
-      margin-bottom: 16px;
+    .badge {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(96,165,250,0.12);
+      border: 1px solid rgba(96,165,250,0.35);
+      color: #bfdbfe;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
     }
 
-    p {
-      font-size: 24px;
-      margin-bottom: 32px;
+    .hero h1 {
+      font-size: 4rem;
+      line-height: 1.05;
+      margin-bottom: 20px;
     }
 
-    .buttons {
+    .hero h1 span {
+      color: #60a5fa;
+      text-shadow: 0 0 20px rgba(96,165,250,0.35);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      max-width: 720px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
       display: flex;
       justify-content: center;
       gap: 16px;
       flex-wrap: wrap;
     }
 
-    button {
-      padding: 14px 22px;
+    .btn {
+      padding: 15px 28px;
+      border-radius: 12px;
       border: none;
-      background: black;
-      color: white;
-      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 16px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     }
 
-    button:hover {
-      background: #333;
+    .btn-primary {
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      color: white;
+      box-shadow: 0 10px 30px rgba(37,99,235,0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(37,99,235,0.45);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 90px 8%;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #cbd5e1;
+      max-width: 700px;
+      margin: 0 auto 50px;
+      line-height: 1.7;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 28px;
+      text-align: left;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(96,165,250,0.45);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+      color: #eff6ff;
+    }
+
+    .card p {
+      color: #cbd5e1;
+      line-height: 1.6;
+      font-size: 0.97rem;
+    }
+
+    .how-it-works {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    .step {
+      background: rgba(255,255,255,0.04);
+      border-radius: 18px;
+      padding: 26px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 22px rgba(59,130,246,0.3);
+    }
+
+    .cta {
+      text-align: center;
+      padding: 100px 20px 120px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-box {
+      max-width: 850px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      padding: 50px 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+    }
+
+    .cta h2 {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      color: #cbd5e1;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 30px 20px 40px;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(35px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInSection 1s ease forwards;
+    }
+
+    .fade-delay-1 { animation-delay: 0.2s; }
+    .fade-delay-2 { animation-delay: 0.4s; }
+    .fade-delay-3 { animation-delay: 0.6s; }
+
+    @keyframes fadeInSection {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero h1 {
+        font-size: 2.7rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .section-title,
+      .cta h2 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Helpgineer</h1>
-    <p>AI tools for engineering students</p>
 
-    <div class="buttons">
-      <button>Homework Solver</button>
-      <button>Calculator</button>
-      <button>Unit Converter</button>
+  <div class="background-glow"></div>
+  <div class="background-glow-2"></div>
+
+  <nav class="navbar">
+    <div class="logo">Help<span>Gineer</span></div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#start">Get Started</a>
     </div>
-  </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="badge">Built for engineering students</div>
+      <h1>Engineering help, <span>made smarter.</span></h1>
+      <p>
+        HelpGineer gives students a faster way to understand problems,
+        study more efficiently, and get organized with smarter academic tools.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="document.getElementById('start').scrollIntoView()">Try HelpGineer</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('features').scrollIntoView()">Explore Features</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section fade-in fade-delay-1" id="features">
+    <h2 class="section-title">What HelpGineer can do</h2>
+    <p class="section-subtitle">
+      Start with a polished landing page now, then later we can connect real AI tools,
+      study generators, homework helpers, and engineering-specific features.
+    </p>
+
+    <div class="features-grid">
+      <div class="card">
+        <h3>Step-by-step help</h3>
+        <p>Guide students through problems with clearer structure and easier explanations.</p>
+      </div>
+      <div class="card">
+        <h3>Study tools</h3>
+        <p>Turn notes, topics, and class material into organized study support.</p>
+      </div>
+      <div class="card">
+        <h3>Smart summaries</h3>
+        <p>Make difficult engineering content feel simpler and faster to review.</p>
+      </div>
+      <div class="card">
+        <h3>Clean design</h3>
+        <p>A more modern, polished experience that feels like a real product from day one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section fade-in fade-delay-2" id="how">
+    <h2 class="section-title">How it works</h2>
+    <p class="section-subtitle">
+      Keep it simple at the beginning. A strong, professional homepage first. Real tools second.
+    </p>
+
+    <div class="how-it-works">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Open the site</h3>
+        <p>Students land on a clean homepage that clearly explains what HelpGineer does.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Choose a tool</h3>
+        <p>Later, they will be able to click tools like explanations, study help, and generators.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Get support faster</h3>
+        <p>The goal is to save time and make engineering coursework feel more manageable.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="start">
+    <div class="cta-box fade-in fade-delay-3">
+      <h2>Start building HelpGineer</h2>
+      <p>
+        This is your polished starting homepage. After this, we can add a real button,
+        a tool page, a login area, or an AI-powered feature.
+      </p>
+      <button class="btn btn-primary" onclick="alert('Your first real feature can go here next.')">Launch First Feature</button>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 HelpGineer. Built for students.
+  </footer>
+
 </body>
 </html>
