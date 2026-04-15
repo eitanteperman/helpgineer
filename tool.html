@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HelpGineer Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0b1020, #111827);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #cbd5e1;
+      margin-bottom: 30px;
+      text-align: center;
+      max-width: 500px;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 120px;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      background: #1e293b;
+      color: white;
+    }
+
+    button {
+      padding: 12px 25px;
+      border-radius: 10px;
+      border: none;
+      background: #3b82f6;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+
+    .output {
+      margin-top: 30px;
+      max-width: 600px;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>HelpGineer Tool</h1>
+  <p>Paste your engineering problem below and generate a structured explanation.</p>
+
+  <textarea id="input" placeholder="Type your problem here..."></textarea>
+
+  <button onclick="generate()">Generate</button>
+
+  <div class="output" id="output"></div>
+
+  <script>
+    function generate() {
+      const input = document.getElementById("input").value;
+      const output = document.getElementById("output");
+
+      if (!input) {
+        alert("Enter a problem first");
+        return;
+      }
+
+      output.style.display = "block";
+      output.innerHTML = "<b>Generated Response:</b><br><br>This is where your AI response will appear soon.";
+    }
+  </script>
+
+</body>
+</html>
